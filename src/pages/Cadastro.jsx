@@ -6,6 +6,9 @@ import Button from "react-bootstrap/Button";
 import Nav from "react-bootstrap/Nav";
 import { useState } from "react";
 
+import { useNavigate } from "react-router-dom";
+
+const url = "http://localhost:5000/usuarios";
 const Cadastro = () => {
   // variaveis pro usuario
   const [nome, setNome] = useState("");
@@ -17,14 +20,49 @@ const Cadastro = () => {
   const [alertaClass, setAlertaClass] = useState("mb-3 d-none");
   const [alertaMensagem, setAlertaMensagem] = useState("");
 
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log("Cliquei");
+    if (!nome == "") {
+      if (!email == "") {
+        if (!senha == "" && !confirmaSenha == "" && senha === confirmaSenha) {
+          console.log("entrei");
+          const user = { nome, email, senha };
+          const res = await fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(user),
+          });
+
+          alert("Usuário cadastrado com sucesso");
+          setNome("");
+          setEmail("");
+          setSenha("");
+          setConfirmaSenha("");
+          navigate("/login");
+        } else {
+          setAlertaClass("mb-3");
+          setAlertaMensagem("As senhas não são iguais");
+        }
+      } else {
+        setAlertaClass("mb-3");
+        setAlertaMensagem("O campo email não pode ser vazio");
+      }
+    } else {
+      setAlertaClass("mb-3");
+      setAlertaMensagem("O campo nome não pode ser vazio");
+    }
+  };
+
   return (
     <div>
       <Container>
-        <span class="material-symbols-outlined"
-              style={{ fontSize: "100px" }}>
+        <span class="material-symbols-outlined" style={{ fontSize: "100px" }}>
           person_add
         </span>
-        <form>
+        <form onSubmit={handleSubmit}>
           {/* caixinha do nome */}
           <FloatingLabel
             controlId="floatingInputName"
@@ -93,7 +131,9 @@ const Cadastro = () => {
             {alertaMensagem}
           </Alert>
 
-          <Button variant="primary">Cadastrar</Button>
+          <Button variant="primary" type="submit">
+            Cadastrar
+          </Button>
         </form>
 
         <p>

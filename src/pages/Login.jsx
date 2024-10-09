@@ -4,7 +4,9 @@ import Form from "react-bootstrap/Form";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 import Nav from "react-bootstrap/Nav";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
+const url = "http://localhost:5000/usuarios";
 
 const Login = () => {
   // variaveis pro usuario
@@ -14,12 +16,31 @@ const Login = () => {
   // variaveis pro alerta
   const [alertaClass, setAlertaClass] = useState("mb-3 d-none");
   const [alertaMensagem, setAlertaMensagem] = useState("");
+  const [alertaVariant, setAlertaVariant] = useState("danger");
+
+  //Lista de usuarios
+  const [usuarios, setUsuarios] = useState([])
+
+  //Resgate de dados da API
+  useEffect(() => {
+    async function fetchData() {
+      try{
+        const res = await fetch(url)
+        const users = await res.json()
+        setUsuarios(users)
+      }
+      catch (error){
+        console.log(error.message)
+      }
+    }
+    fetchData()
+    console.log(usuarios)
+  }, []);
 
   return (
     <div>
       <Container>
-        <span class="material-symbols-outlined"
-              style={{ fontSize: "100px" }}>
+        <span class="material-symbols-outlined" style={{ fontSize: "100px" }}>
           login
         </span>
         <form>
@@ -55,7 +76,7 @@ const Login = () => {
             />
           </FloatingLabel>
 
-          <Alert key="danger" variant="danger" className={alertaClass}>
+          <Alert key="danger" variant={alertaVariant} className={alertaClass}>
             {alertaMensagem}
           </Alert>
 
