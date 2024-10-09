@@ -19,23 +19,61 @@ const Login = () => {
   const [alertaVariant, setAlertaVariant] = useState("danger");
 
   //Lista de usuarios
-  const [usuarios, setUsuarios] = useState([])
+  const [usuarios, setUsuarios] = useState([]);
 
   //Resgate de dados da API
   useEffect(() => {
     async function fetchData() {
-      try{
-        const res = await fetch(url)
-        const users = await res.json()
-        setUsuarios(users)
-      }
-      catch (error){
-        console.log(error.message)
+      try {
+        const res = await fetch(url);
+        const users = await res.json();
+        setUsuarios(users);
+      } catch (error) {
+        console.log(error.message);
       }
     }
-    fetchData()
-    console.log(usuarios)
+    fetchData();
+    console.log(usuarios);
   }, []);
+
+  const gravarLocalStorage = (usuario) =>{
+    localStorage.setItem("userName", usuario.nome)
+    localStorage.setItem("userEmail", usuario.email)   
+  }
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    const user = { email, senha };
+
+    //Verifica na lista de usuarios se tem o usuario digitado
+    const userToFind = usuarios.find(
+      (userFind) => userFind.email == user.email
+    );
+
+    if (email != "") {
+      if (senha != "") {
+        if (userToFind != undefined && userToFind.senha == senha) {
+          console.log(userToFind);
+          console.log("entrou");
+          setAlertaClass("mb-3");
+          gravarLocalStorage(userToFind)
+          alert("Login efetuado com Sucesso");
+          setAlertaMensagem("Login efetuado com Sucesso");
+          setAlertaVariant("success");
+        } else {
+          setAlertaClass("mb-3");
+          setAlertaMensagem("Usuário ou senha inválides");
+        }
+      } else {
+        setAlertaClass("mb-3");
+        setAlertaMensagem("O campo senha não pode ser vazio");
+      }
+    } else {
+      setAlertaClass("mb-3");
+      setAlertaMensagem("O campo email não pode ser vazio");
+    }
+  };
 
   return (
     <div>
@@ -43,7 +81,7 @@ const Login = () => {
         <span class="material-symbols-outlined" style={{ fontSize: "100px" }}>
           login
         </span>
-        <form>
+        <form onSubmit={handleLogin}>
           {/* caixinha do email */}
           <FloatingLabel
             controlId="floatingInputEmail"
@@ -80,7 +118,9 @@ const Login = () => {
             {alertaMensagem}
           </Alert>
 
-          <Button variant="primary">Login</Button>
+          <Button variant="primary" type="submit">
+            Login
+          </Button>
         </form>
 
         <p>
