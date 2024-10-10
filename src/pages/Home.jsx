@@ -5,12 +5,16 @@ import ButtonGroup from "react-bootstrap/ButtonGroup";
 
 import Table from "react-bootstrap/Table";
 
-import {useState, useEffect} from "react"
+import { useState, useEffect } from "react";
+
+import ModalCadastrar from "../components/ModalCadastrar";
+
 const url = "http://localhost:5000/usuarios";
 
 const Home = () => {
-  
   const [usuarios, setUsuarios] = useState([]);
+
+  const [modalCadastrar, setModalCadastrar] = useState(false);
 
   //Resgate de dados da API
   useEffect(() => {
@@ -27,9 +31,6 @@ const Home = () => {
     console.log(usuarios);
   }, []);
 
-  
-  
-  
   return (
     <div>
       <Container>
@@ -39,6 +40,9 @@ const Home = () => {
             variant="primary"
             size="lg"
             className="mb-3 d-inline-flex justify-content-center"
+            onClick={() => {
+              setModalCadastrar(true)
+            }}
           >
             <span
               className="material-symbols-outlined flex"
@@ -56,27 +60,34 @@ const Home = () => {
               <th>#</th>
               <th>Nome </th>
               <th>Email</th>
-              <th>Senha</th>
+              <th>Tipo</th>
               <th></th>
             </tr>
           </thead>
           <tbody>
-            {usuarios.map((user)=>(
-            <tr key={user.id}>
-              <td>{user.id}</td>
-              <td>{user.nome}</td>
-              <td>{user.email}</td>
-              <td>{user.senha}</td>
-              <td>
-                <ButtonGroup size="sm">
-                  <Button variant="info">Editar</Button>
-                  <Button variant="danger">Excluir</Button>
-                </ButtonGroup>
-              </td>
-            </tr>
+            {usuarios.map((user) => (
+              <tr key={user.id}>
+                <td>{user.id}</td>
+                <td>{user.nome}</td>
+                <td>{user.email}</td>
+                <td>{user.tipo}</td>
+                <td>
+                  <ButtonGroup size="sm">
+                    <Button variant="info">Editar</Button>
+                    <Button variant="danger">Excluir</Button>
+                  </ButtonGroup>
+                </td>
+              </tr>
             ))}
           </tbody>
         </Table>
+
+        <ModalCadastrar
+          show={modalCadastrar}
+          onHide={() => {
+            setModalCadastrar(false);
+          }}
+        />
       </Container>
     </div>
   );

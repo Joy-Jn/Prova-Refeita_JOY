@@ -4,19 +4,29 @@
       "id": "1",
       "nome": "principal",
       "email": "principal@gmail.com",
-      "senha": "1234"
+      "senha": "1234",
+      "tipo": "Administrador"
     },
     {
       "id": "099f",
       "nome": "Gregory",
       "email": "gregory@gmail.com",
-      "senha": "1234"
+      "senha": "1234",
+      "tipo": "Administrador"
     },
     {
       "id": "0bea",
       "nome": "Cris",
       "email": "cr7@gmail.com",
-      "senha": "cr7"
+      "senha": "cr7",
+      "tipo": "Administrador"
+    },
+    {
+      "id": "9462",
+      "nome": "Messi",
+      "email": "messi@gmail.com",
+      "senha": "1234",
+      "tipo": "Gerente"
     }
   ]
 }
