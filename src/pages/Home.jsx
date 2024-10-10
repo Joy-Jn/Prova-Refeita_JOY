@@ -41,7 +41,7 @@ const Home = () => {
             size="lg"
             className="mb-3 d-inline-flex justify-content-center"
             onClick={() => {
-              setModalCadastrar(true)
+              setModalCadastrar(true);
             }}
           >
             <span
@@ -74,7 +74,19 @@ const Home = () => {
                 <td>
                   <ButtonGroup size="sm">
                     <Button variant="info">Editar</Button>
-                    <Button variant="danger">Excluir</Button>
+                    <Button
+                      variant="danger"
+                      onClick={async () => {
+                        const res = await fetch(`http://localhost:5000/usuarios/${user.id}`, {
+                          method: "DELETE",
+                          headers: { "Content-Type": "application/json" },
+                        });
+                        const funcionarioRemovido = await res.json()
+                        alert(`Usuário ${funcionarioRemovido.nome} foi excluido`)
+                      }}
+                    >
+                      Excluir
+                    </Button>
                   </ButtonGroup>
                 </td>
               </tr>
