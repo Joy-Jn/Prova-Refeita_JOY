@@ -12,9 +12,8 @@ const url = "http://localhost:5000/usuarios";
 const Cadastro = () => {
   // variaveis pro usuario
   const [nome, setNome] = useState("");
-  const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
-  const [confirmaSenha, setConfirmaSenha] = useState("");
+  const [categoria, setCategoria] = useState("");
+  const [preco, setPreco] = useState("");
 
   // variaveis pro alerta
   const [alertaClass, setAlertaClass] = useState("mb-3 d-none");
@@ -26,25 +25,21 @@ const Cadastro = () => {
     e.preventDefault();
     console.log("Cliquei");
     if (!nome == "") {
-      if (!email == "") {
-        if (!senha == "" && !confirmaSenha == "" && senha === confirmaSenha) {
+      if (!categoria == "") {
+        if (!preco == "") {
           console.log("entrei");
-          const user = { nome, email, senha };
+          const user = { nome, categoria, preco };
           const res = await fetch(url, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(user),
           });
 
-          alert("Usuário cadastrado com sucesso");
+          alert("Produto cadastrado com sucesso");
           setNome("");
-          setEmail("");
-          setSenha("");
-          setConfirmaSenha("");
-          navigate("/login");
-        } else {
-          setAlertaClass("mb-3");
-          setAlertaMensagem("As senhas não são iguais");
+          setCategoria("");
+          setPreco("");
+          navigate("/listadeprodutos");
         }
       } else {
         setAlertaClass("mb-3");
@@ -57,10 +52,10 @@ const Cadastro = () => {
   };
 
   return (
-    <div>
+    <div style={{backgroundColor:"lightgreen", minHeight:"100vh"}}>
       <Container>
-        <span class="material-symbols-outlined" style={{ fontSize: "100px" }}>
-          person_add
+        <span class="" style={{ fontSize: "40px" }}>
+          Cadastre o Produto
         </span>
         <form onSubmit={handleSubmit}>
           {/* caixinha do nome */}
@@ -81,48 +76,32 @@ const Cadastro = () => {
 
           {/* caixinha do email */}
           <FloatingLabel
-            controlId="floatingInputEmail"
-            label="Email"
+            controlId="floatingInputName"
+            label="Categoria"
             className="mb-3"
           >
             <Form.Control
-              type="email"
-              placeholder="name@example.com"
-              value={email}
+              type="text"
+              placeholder="Categoria"
+              value={categoria}
               onChange={(e) => {
-                setEmail(e.target.value);
+                setCategoria(e.target.value);
               }}
             />
           </FloatingLabel>
 
           {/* caixinha da senha */}
           <FloatingLabel
-            controlId="floatingPassword"
-            label="Senha"
+            controlId="floatingInputName"
+            label="Preço"
             className="mb-3"
           >
             <Form.Control
-              type="password"
-              placeholder="Password"
-              value={senha}
+              type="text"
+              placeholder="Preço"
+              value={preco}
               onChange={(e) => {
-                setSenha(e.target.value);
-              }}
-            />
-          </FloatingLabel>
-
-          {/* caixinha da confirmação da senha */}
-          <FloatingLabel
-            controlId="floatingConfirmPassword"
-            label="Confirme a senha"
-            className="mb-3"
-          >
-            <Form.Control
-              type="password"
-              placeholder="Password"
-              value={confirmaSenha}
-              onChange={(e) => {
-                setConfirmaSenha(e.target.value);
+                setPreco(e.target.value);
               }}
             />
           </FloatingLabel>

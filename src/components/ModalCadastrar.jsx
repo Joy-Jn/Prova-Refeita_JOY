@@ -9,25 +9,24 @@ const url = "http://localhost:5000/usuarios";
 
 const ModalCadastrar = (props) => {
   const [nome, setNome] = useState("");
-  const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
-  const [tipo, setTipo] = useState("Administrador");
+  const [categoria, setCategoria] = useState("");
+  const [preco, setPreco] = useState("");
 
   const handleCadastrar = async () => {
-    if (nome != "" && email != "" && senha != "") {
-      const user = { nome, email, senha, tipo };
+    if (nome != "" && categoria != "" && preco != "") {
+      const user = { nome, categoria, preco, };
       const res = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(user),
       });
       setNome("");
-      setEmail("");
-      setSenha("");
-      alert("Cadastrado com sucesso");
+      setCategoria("");
+      setPreco("");
+      alert("Produto cadastrado com sucesso");
       props.onHide();
     } else {
-      alert("Cadastrado com sucesso");
+      alert("Produto cadastrado com sucesso");
     }
   };
 
@@ -41,7 +40,7 @@ const ModalCadastrar = (props) => {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            Cadastrar funcionário
+            Cadastrar Produto
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -53,7 +52,7 @@ const ModalCadastrar = (props) => {
           >
             <Form.Control
               type="text"
-              placeholder="Digite seu nome"
+              placeholder="Insira o Produto"
               value={nome}
               onChange={(e) => {
                 setNome(e.target.value);
@@ -62,49 +61,36 @@ const ModalCadastrar = (props) => {
           </FloatingLabel>
           {/* caixinha do email */}
           <FloatingLabel
-            controlId="floatingInputEmail"
-            label="Email"
+            controlId="floatingInputName"
+            label="Categoria"
             className="mb-3"
           >
             <Form.Control
-              type="email"
-              placeholder="name@example.com"
-              value={email}
+              type="text"
+              placeholder="Categoria"
+              value={categoria}
               onChange={(e) => {
-                setEmail(e.target.value);
+                setCategoria(e.target.value);
               }}
             />
           </FloatingLabel>
           {/* caixinha da senha */}
           <FloatingLabel
-            controlId="floatingPassword"
-            label="Senha"
+            controlId="floatingInputPreco"
+            label="Preço"
             className="mb-3"
           >
             <Form.Control
-              type="password"
-              placeholder="Password"
-              value={senha}
+              type="text"
+              placeholder="Preço"
+              value={preco}
               onChange={(e) => {
-                setSenha(e.target.value);
+                setPreco(e.target.value);
               }}
             />
           </FloatingLabel>
 
-          {/* caixinha tipo */}
-          <Form.Group controlId="formGridTipo">
-            <Form.Label>Tipo</Form.Label>
-            <Form.Select
-              value={tipo}
-              onChange={(e) => {
-                setTipo(e.target.value);
-              }}
-            >
-              <option>Administrador</option>
-              <option>Gerente</option>
-              <option>Funcionário</option>
-            </Form.Select>
-          </Form.Group>
+          
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={handleCadastrar}>Cadastrar</Button>

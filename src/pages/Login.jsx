@@ -46,24 +46,33 @@ const Login = () => {
 
     const user = { email, senha };
 
-    //Verifica na lista de usuarios se tem o usuario digitado
+    // Verifica na lista de usuarios se tem o usuario digitado
     const userToFind = usuarios.find(
-      (userFind) => userFind.email == user.email
+      (userFind) => userFind.email === user.email
     );
 
-    if (email != "") {
-      if (senha != "") {
-        if (userToFind != undefined && userToFind.senha == senha) {
-          console.log(userToFind);
+    // E-mail e senha pré-definidos para validação
+    const emailValido = "admin@gmail.com";
+    const senhaValida = "4321";
+
+    if (email !== "") {
+      if (senha !== "") {
+        // Validação do email e senha definidos manualmente
+        if (email === emailValido && senha === senhaValida) {
+          setAlertaClass("mb-3");
+          alert("Login efetuado com Sucesso");
+          setAlertaMensagem("Login efetuado com Sucesso");
+          setAlertaVariant("success");
+        } else if (userToFind !== undefined && userToFind.senha === senha) {
           console.log("entrou");
           setAlertaClass("mb-3");
-          gravarLocalStorage(userToFind)
+          gravarLocalStorage(userToFind);
           alert("Login efetuado com Sucesso");
           setAlertaMensagem("Login efetuado com Sucesso");
           setAlertaVariant("success");
         } else {
           setAlertaClass("mb-3");
-          setAlertaMensagem("Usuário ou senha inválides");
+          setAlertaMensagem("Usuário ou senha inválidos");
         }
       } else {
         setAlertaClass("mb-3");

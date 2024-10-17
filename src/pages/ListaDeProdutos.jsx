@@ -32,9 +32,9 @@ const Home = () => {
   }, []);
 
   return (
-    <div>
+    <div style={{backgroundColor:"lightgreen", minHeight:"100vh"}}>
       <Container>
-        <h1>Lista de algo</h1>
+        <h1>Lista de Produtos</h1>
         <div className="d-grid col-2 gap-2">
           <Button
             variant="primary"
@@ -50,7 +50,7 @@ const Home = () => {
             >
               add_circle
             </span>
-            Cadastrar
+            Adicionar
           </Button>
         </div>
 
@@ -59,35 +59,38 @@ const Home = () => {
             <tr>
               <th>#</th>
               <th>Nome </th>
-              <th>Email</th>
-              <th>Tipo</th>
+              <th>Categoria</th>
+              <th>Preço</th>
               <th></th>
             </tr>
           </thead>
+
           <tbody>
             {usuarios.map((user) => (
               <tr key={user.id}>
                 <td>{user.id}</td>
                 <td>{user.nome}</td>
-                <td>{user.email}</td>
-                <td>{user.tipo}</td>
+                <td>{user.categoria}</td>
+                <td>{user.preco}</td>
+                
+                
                 <td>
-                  <ButtonGroup size="sm">
-                    <Button variant="info">Editar</Button>
-                    <Button
-                      variant="danger"
-                      onClick={async () => {
-                        const res = await fetch(`http://localhost:5000/usuarios/${user.id}`, {
-                          method: "DELETE",
-                          headers: { "Content-Type": "application/json" },
-                        });
-                        const funcionarioRemovido = await res.json()
-                        alert(`Usuário ${funcionarioRemovido.nome} foi excluido`)
-                      }}
-                    >
-                      Excluir
-                    </Button>
-                  </ButtonGroup>
+                <ButtonGroup size="sm">
+                
+                <Button
+                  variant="danger"
+                  onClick={async () => {
+                    const res = await fetch(`http://localhost:5000/usuarios/${user.id}`, {
+                      method: "DELETE",
+                      headers: { "Content-Type": "application/json" },
+                    });
+                    const funcionarioRemovido = await res.json()
+                    alert(`Produto ${funcionarioRemovido.nome} foi excluido`)
+                  }}
+                >
+                  Excluir
+                </Button>
+              </ButtonGroup>                
                 </td>
               </tr>
             ))}
